@@ -3,12 +3,12 @@ let vertices, colors, indices = undefined;
 
 document.body.onload = _ => {
     let [vertices, indicesLines, indicesTris] = createKidneySurface();
-    var aColors = [];
+    let aColors = [];
     for (let i = 0; i < indicesTris.length / 2; i += 1) {
         aColors = [...aColors, .25, 0, 0, 1, 0, 0, 1, 1];
     }
     
-    var colors = new Float32Array(aColors);
+    let colors = new Float32Array(aColors);
     draw('#canvas1', 0.2, vertices, indicesLines, indicesTris, colors);
 
     [vertices, indicesLines, indicesTris] = createWellenkugel();
@@ -19,27 +19,27 @@ document.body.onload = _ => {
 };
 
 let createWellenkugel = () => {
-    var n = 100;
-    var m = 100;
+    let n = 100;
+    let m = 100;
     // Positions.
     let vertices = new Float32Array(3 * (n + 1) * (m + 1));
     // Index data.
     let indicesLines = new Uint16Array(2 * 2 * n * m);
     let indicesTris = new Uint16Array(3 * 2 * n * m);
 
-    var du = 14.5 / n;
-    var dv = 2 * Math.PI / m;
+    let du = 14.5 / n;
+    let dv = 2 * Math.PI / m;
 
     // Counter for entries in index array.
-    var iLines = 0;
-    var iTris = 0;
+    let iLines = 0;
+    let iTris = 0;
 
     // Loop angle u.
-    for (var i = 0, u = 0; i <= n; i++, u += du) {
+    for (let i = 0, u = 0; i <= n; i++, u += du) {
         // Loop height v.
-        for (var j = 0, v = 0; j <= m; j++, v += dv) {
+        for (let j = 0, v = 0; j <= m; j++, v += dv) {
 
-            var iVertex = i * (m + 1) + j;
+            let iVertex = i * (m + 1) + j;
 
             let x, y, z = 0;
             x = u * Math.cos(Math.cos(u)) * Math.cos(v);
@@ -80,27 +80,27 @@ let createWellenkugel = () => {
 }
 
 let createKidneySurface = () => {
-    var n = 20;
-    var m = 20;
+    let n = 20;
+    let m = 20;
     // Positions.
     let vertices = new Float32Array(3 * (n + 1) * (m + 1));
     // Index data.
     let indicesLines = new Uint16Array(2 * 2 * n * m);
     let indicesTris = new Uint16Array(3 * 2 * n * m);
 
-    var du = 2 * Math.PI / n;
-    var dv = Math.PI / m;
+    let du = 2 * Math.PI / n;
+    let dv = Math.PI / m;
 
     // Counter for entries in index array.
-    var iLines = 0;
-    var iTris = 0;
+    let iLines = 0;
+    let iTris = 0;
 
     // Loop angle u.
-    for (var i = 0, u = 0; i <= n; i++, u += du) {
+    for (let i = 0, u = 0; i <= n; i++, u += du) {
         // Loop height v.
-        for (var j = 0, v = -Math.PI / 2; j <= m; j++, v += dv) {
+        for (let j = 0, v = -Math.PI / 2; j <= m; j++, v += dv) {
 
-            var iVertex = i * (m + 1) + j;
+            let iVertex = i * (m + 1) + j;
 
             let x, y, z = 0;
             x = Math.cos(u) * (3 * Math.cos(v) - Math.cos(3 * v));
@@ -141,27 +141,27 @@ let createKidneySurface = () => {
 }
 
 let createMyShape = () => {
-    var n = 20;
-    var m = 20;
+    let n = 20;
+    let m = 20;
     // Positions.
     let vertices = new Float32Array(3 * (n + 1) * (m + 1));
     // Index data.
     let indicesLines = new Uint16Array(2 * 2 * n * m);
     let indicesTris = new Uint16Array(3 * 2 * n * m);
 
-    var du = 2 * Math.PI / n;
-    var dv = Math.PI / m;
+    let du = 2 * Math.PI / n;
+    let dv = Math.PI / m;
 
     // Counter for entries in index array.
-    var iLines = 0;
-    var iTris = 0;
+    let iLines = 0;
+    let iTris = 0;
 
     // Loop angle u.
-    for (var i = 0, u = 0; i <= n; i++, u += du) {
+    for (let i = 0, u = 0; i <= n; i++, u += du) {
         // Loop height v.
-        for (var j = 0, v = -Math.PI / 2; j <= m; j++, v += dv) {
+        for (let j = 0, v = -Math.PI / 2; j <= m; j++, v += dv) {
 
-            var iVertex = i * (m + 1) + j;
+            let iVertex = i * (m + 1) + j;
 
             let x, y, z = 0;
             x = Math.cos(u) * (1 * Math.cos(v) - Math.cos(6 * v));
@@ -219,7 +219,7 @@ function draw(sId, scale = 1, vertices, indicesLines, indicesTris, colors) {
     gl.polygonOffset(0.5, 0);
 
     // Compile vertex shader. 
-    var vsSource = '' +
+    let vsSource = '' +
         'attribute vec3 pos;' +
         'attribute vec4 col;' +
         'varying vec4 color;' +
@@ -227,22 +227,22 @@ function draw(sId, scale = 1, vertices, indicesLines, indicesTris, colors) {
         `gl_Position = vec4(pos * ${scale} , 1);` +
         '}';
 
-    var vs = gl.createShader(gl.VERTEX_SHADER);
+    let vs = gl.createShader(gl.VERTEX_SHADER);
     gl.shaderSource(vs, vsSource);
     gl.compileShader(vs);
 
     // Compile fragment shader.
-    var fsSouce = 'precision mediump float;' +
+    let fsSouce = 'precision mediump float;' +
         'varying vec4 color;' +
         'void main() {' +
         'gl_FragColor = color;' +
         '}';
-    var fs = gl.createShader(gl.FRAGMENT_SHADER);
+    let fs = gl.createShader(gl.FRAGMENT_SHADER);
     gl.shaderSource(fs, fsSouce);
     gl.compileShader(fs);
 
     // Link shader together into a program.
-    var prog = gl.createProgram();
+    let prog = gl.createProgram();
     gl.attachShader(prog, vs);
     gl.attachShader(prog, fs);
     gl.bindAttribLocation(prog, 0, "pos");
@@ -250,18 +250,18 @@ function draw(sId, scale = 1, vertices, indicesLines, indicesTris, colors) {
     gl.useProgram(prog);
 
     // Setup position vertex buffer object.
-    var vboPos = gl.createBuffer();
+    let vboPos = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vboPos);
     gl.bufferData(gl.ARRAY_BUFFER,
         vertices, gl.STATIC_DRAW);
     // Bind vertex buffer to attribute variable.
-    var posAttrib = gl.getAttribLocation(prog, 'pos');
+    let posAttrib = gl.getAttribLocation(prog, 'pos');
     gl.vertexAttribPointer(posAttrib, 3, gl.FLOAT,
         false, 0, 0);
     gl.enableVertexAttribArray(posAttrib);
 
     // Setup lines index buffer object.
-    var iboLines = gl.createBuffer();
+    let iboLines = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, iboLines);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
         indicesLines, gl.STATIC_DRAW);
@@ -269,7 +269,7 @@ function draw(sId, scale = 1, vertices, indicesLines, indicesTris, colors) {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
 
     // Setup tris index buffer object.
-    var iboTris = gl.createBuffer();
+    let iboTris = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, iboTris);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
         indicesTris, gl.STATIC_DRAW);
@@ -277,10 +277,10 @@ function draw(sId, scale = 1, vertices, indicesLines, indicesTris, colors) {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
 
 
-    var colAttrib = gl.getAttribLocation(prog, 'col');
+    let colAttrib = gl.getAttribLocation(prog, 'col');
     if (colors) {
         // Setup color vertex buffer object.
-        var vboCol = gl.createBuffer();
+        let vboCol = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, vboCol);
         gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW);
         // Bind vertex buffer to attribute variable.
