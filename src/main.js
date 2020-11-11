@@ -4,8 +4,11 @@ let vertices, colors, indices = undefined;
 document.body.onload = _ => {
     let [vertices, indicesLines, indicesTris] = createKidneySurface();
     let aColors = [];
+    let r = 0, b = 1;
     for (let i = 0; i < indicesTris.length / 2; i += 1) {
-        aColors = [...aColors, .25, 0, 0, 1, 0, 0, 1, 1];
+        r += 0.5 * i/indicesTris.length/2;
+        b -= 0.5 * i/indicesTris.length/2;
+        aColors = [...aColors, r, 0, b, 1];
     }
     
     let colors = new Float32Array(aColors);
